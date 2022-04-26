@@ -66,4 +66,8 @@ dependencies {
     implementation("org.orbit-mvi:orbit-core:$orbit_mvi_version")
     implementation("org.orbit-mvi:orbit-viewmodel:$orbit_mvi_version")
     testImplementation("org.orbit-mvi:orbit-test:$orbit_mvi_version")
+
+    // Kotlin Coroutine Test
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutine_test")
+
 }
