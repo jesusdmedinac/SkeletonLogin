@@ -33,6 +33,21 @@ fun SkeletonLoginApp() {
                 },
             )
         }
-        composable(NavItem.LoginNavItem.baseRoute) { LoginPage() }
+        composable(NavItem.LoginNavItem.baseRoute) {
+            val context = LocalContext.current
+
+            LoginPage(
+                onForgotPasswordClick = {
+                    Toast.makeText(
+                        context,
+                        "¡Ups! Esta opción no se encuentra disponible",
+                        Toast.LENGTH_LONG
+                    ).show()
+                },
+                onLoginClick = {},
+                onEmailChange = {},
+                onPasswordChange = {},
+            )
+        }
     }
 }
