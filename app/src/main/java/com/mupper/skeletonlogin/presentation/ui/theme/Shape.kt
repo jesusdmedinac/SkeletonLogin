@@ -1,4 +1,4 @@
-package com.mupper.skeletonlogin.ui.theme
+package com.mupper.skeletonlogin.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

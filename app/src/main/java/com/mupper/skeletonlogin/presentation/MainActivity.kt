@@ -1,4 +1,4 @@
-package com.mupper.skeletonlogin
+package com.mupper.skeletonlogin.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.mupper.skeletonlogin.ui.theme.SkeletonLoginTheme
+import com.mupper.skeletonlogin.presentation.ui.SkeletonLoginApp
+import com.mupper.skeletonlogin.presentation.ui.theme.SkeletonLoginTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,22 +20,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    SkeletonLoginApp()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SkeletonLoginTheme {
-        Greeting("Android")
     }
 }
