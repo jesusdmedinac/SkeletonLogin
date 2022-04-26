@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import com.mupper.skeletonlogin.presentation.ui.SkeletonLoginApp
 import com.mupper.skeletonlogin.presentation.ui.theme.SkeletonLoginTheme
 
+@ExperimentalUnitApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
