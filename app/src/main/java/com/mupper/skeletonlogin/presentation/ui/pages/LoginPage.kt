@@ -1,6 +1,7 @@
 package com.mupper.skeletonlogin.presentation.ui.pages
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -8,6 +9,8 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -111,10 +114,15 @@ fun LoginPage(
                 Button(
                     onClick = onLoginClick,
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = if (!loginViewModelState.isLoading) Modifier.fillMaxWidth()
+                    else Modifier
+                        .wrapContentWidth()
+                        .clip(CircleShape)
+                        .align(Alignment.CenterHorizontally),
                     enabled = loginViewModelState.isLoginEnabled,
                 ) {
-                    Text("Iniciar sesión")
+                    if (!loginViewModelState.isLoading) Text("Iniciar sesión")
+                    else CircularProgressIndicator(color = Color.White)
                 }
             }
         }

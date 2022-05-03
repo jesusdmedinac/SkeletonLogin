@@ -5,4 +5,5 @@ sealed class NavItem(
 ) {
     object WelcomeNavItem : NavItem("welcome-page")
     object LoginNavItem : NavItem("login-page")
+    object HomeNavItem : NavItem("home-page")
 }

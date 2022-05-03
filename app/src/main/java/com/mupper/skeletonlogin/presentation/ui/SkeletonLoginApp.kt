@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mupper.skeletonlogin.presentation.ui.navigation.NavItem
+import com.mupper.skeletonlogin.presentation.ui.pages.HomePage
 import com.mupper.skeletonlogin.presentation.ui.pages.LoginPage
 import com.mupper.skeletonlogin.presentation.ui.pages.WelcomePage
 import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
@@ -49,6 +50,7 @@ fun SkeletonLoginApp() {
                 onLoginClick = welcomeViewModel::onLoginClick,
             )
         }
+
         composable(NavItem.LoginNavItem.baseRoute) {
             val context = LocalContext.current
 
@@ -63,7 +65,7 @@ fun SkeletonLoginApp() {
             LaunchedEffect(loginViewModelSideEffect) {
                 when (loginViewModelSideEffect) {
                     LoginViewModel.SideEffect.NavigateToForgotPassword -> context.displayOptionNotAvailableToast()
-                    LoginViewModel.SideEffect.NavigateToHomePage -> TODO()
+                    LoginViewModel.SideEffect.NavigateToHomePage -> navController.navigateToHome()
                     LoginViewModel.SideEffect.NavigateToWelcomePage -> navController.navigateToWelcome()
                     else -> Unit
                 }
@@ -79,6 +81,11 @@ fun SkeletonLoginApp() {
                 onTogglePasswordVisibilityClick = loginViewModel::onTogglePasswordVisibility
             )
         }
+
+        composable(NavItem.HomeNavItem.baseRoute) {
+            HomePage()
+
+        }
     }
 }
 
@@ -88,6 +95,10 @@ private fun NavHostController.navigateToLogin() {
 
 private fun NavHostController.navigateToWelcome() {
     navigate(NavItem.WelcomeNavItem.baseRoute)
+}
+
+private fun NavHostController.navigateToHome() {
+    navigate(NavItem.HomeNavItem.baseRoute)
 }
 
 private fun Context.displayOptionNotAvailableToast() {
