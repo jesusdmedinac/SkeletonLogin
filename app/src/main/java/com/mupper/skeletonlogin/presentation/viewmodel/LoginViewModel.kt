@@ -35,6 +35,7 @@ class LoginViewModel @Inject constructor(
         reduce {
             state.copy(isLoading = true)
         }
+        delay(500) // Delay to allow dialog being display
         val email = state.email
         val password = state.password
         val userCredentials = UserCredentials(email, password)

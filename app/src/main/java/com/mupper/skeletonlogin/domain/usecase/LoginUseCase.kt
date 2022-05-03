@@ -13,6 +13,10 @@ interface LoginUseCase {
 
 class LoginUseCaseImpl @Inject constructor() : LoginUseCase {
     override suspend fun invoke(userCredentials: UserCredentials) {
-        delay(500)
+        if (!userCredentials.areValidUserCredentials())
+            throw LoginException()
     }
+
+    private fun UserCredentials.areValidUserCredentials(): Boolean =
+        this == UserCredentials("user@baubap.com", "pass123")
 }

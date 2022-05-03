@@ -29,7 +29,7 @@ class LoginViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every { loginUseCase(any()) } just runs
+        coEvery { loginUseCase(any()) } just runs
 
         initialState = LoginViewModel.State()
     }
@@ -59,7 +59,7 @@ class LoginViewModelTest {
             val email = initialState.email
             val password = initialState.password
             val userCredentials = UserCredentials(email, password)
-            every { loginUseCase(userCredentials) } throws LoginException()
+            coEvery { loginUseCase(userCredentials) } throws LoginException()
 
             // When
             testContainerHost.testIntent {
@@ -84,7 +84,7 @@ class LoginViewModelTest {
             val email = initialState.email
             val password = initialState.password
             val userCredentials = UserCredentials(email, password)
-            every { loginUseCase(userCredentials) } just runs
+            coEvery { loginUseCase(userCredentials) } just runs
 
             // When
             testContainerHost.testIntent {
