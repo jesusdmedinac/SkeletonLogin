@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -58,7 +57,7 @@ fun SkeletonLoginApp() {
             val loginViewModelState by loginViewModel.container.stateFlow.collectAsState()
 
             val loginViewModelSideEffect by loginViewModel.container.sideEffectFlow.collectAsState(
-                initial = LoginViewModel.SideEffect.Idle
+                initial = LoginViewModel.SideEffect.Idle,
             )
 
             LaunchedEffect(loginViewModelSideEffect) {
@@ -89,6 +88,6 @@ private fun Context.displayOptionNotAvailableToast() {
     Toast.makeText(
         this,
         "¡Ups! Esta opción no se encuentra disponible",
-        Toast.LENGTH_LONG
+        Toast.LENGTH_SHORT
     ).show()
 }

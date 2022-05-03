@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import com.mupper.skeletonlogin.domain.model.UserCredentials
 import com.mupper.skeletonlogin.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.OrbitDsl
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -20,8 +22,14 @@ class LoginViewModel @Inject constructor(
     override val container: Container<State, SideEffect> =
         container(State())
 
+    private suspend fun SimpleSyntax<State, SideEffect>.postRepetitiveSideEffect(sideEffect: SideEffect) {
+        postSideEffect(sideEffect)
+        delay(100)
+        postSideEffect(SideEffect.Idle)
+    }
+
     fun onForgotPasswordClick() = intent {
-        postSideEffect(SideEffect.NavigateToForgotPassword)
+        postRepetitiveSideEffect(SideEffect.NavigateToForgotPassword)
     }
 
     fun onLoginClick() = intent {
