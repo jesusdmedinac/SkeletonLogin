@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,6 +18,7 @@ import com.mupper.skeletonlogin.presentation.ui.navigation.NavItem
 import com.mupper.skeletonlogin.presentation.ui.pages.HomePage
 import com.mupper.skeletonlogin.presentation.ui.pages.LoginPage
 import com.mupper.skeletonlogin.presentation.ui.pages.WelcomePage
+import com.mupper.skeletonlogin.presentation.viewmodel.HomeViewModel
 import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
 import com.mupper.skeletonlogin.presentation.viewmodel.WelcomeViewModel
 
@@ -83,10 +85,21 @@ fun SkeletonLoginApp() {
         }
 
         composable(NavItem.HomeNavItem.baseRoute) {
-            HomePage(
-                onBackClick = {
-                    navController.popBackStack()
+            val homeViewModel: HomeViewModel = hiltViewModel()
+
+            val homeViewModelSideEffect by homeViewModel.container.sideEffectFlow.collectAsState(
+                initial = HomeViewModel.SideEffect.Idle
+            )
+
+            LaunchedEffect(homeViewModelSideEffect) {
+                when (homeViewModelSideEffect) {
+                    HomeViewModel.SideEffect.LogOut -> navController.logOut()
+                    else -> Unit
                 }
+            }
+
+            HomePage(
+                onBackClick = homeViewModel::onBackClick
             )
         }
     }
@@ -101,7 +114,22 @@ private fun NavHostController.navigateToWelcome() {
 }
 
 private fun NavHostController.navigateToHome() {
-    navigate(NavItem.HomeNavItem.baseRoute)
+    navigate(NavItem.HomeNavItem.baseRoute) {
+        popUpTo(NavItem.LoginNavItem.baseRoute) {
+            inclusive = true
+        }
+        popUpTo(NavItem.WelcomeNavItem.baseRoute) {
+            inclusive = true
+        }
+    }
+}
+
+private fun NavHostController.logOut() {
+    navigate(NavItem.WelcomeNavItem.baseRoute) {
+        popUpTo(NavItem.HomeNavItem.baseRoute) {
+            inclusive = true
+        }
+    }
 }
 
 private fun Context.displayOptionNotAvailableToast() {
