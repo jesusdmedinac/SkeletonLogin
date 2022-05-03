@@ -157,23 +157,23 @@ class LoginViewModelTest {
         }
 
     @Test
-    fun `togglePasswordVisibility should toggle passwordVisibility given testContainerHost`() =
+    fun `onTogglePasswordVisibility should toggle isPasswordVisible given testContainerHost`() =
         runTest {
             // Given
-            val passwordVisibility = Random.nextBoolean()
-            val initialState = LoginViewModel.State(passwordVisibility = passwordVisibility)
+            val isPasswordVisible = Random.nextBoolean()
+            val initialState = LoginViewModel.State(isPasswordVisible = isPasswordVisible)
             val testContainerHost = loginViewModel.test(initialState)
 
             // When
             testContainerHost.testIntent {
-                loginViewModel.togglePasswordVisibility()
+                loginViewModel.onTogglePasswordVisibility()
             }
 
             // Then
-            val expectedPasswordVisibility = !passwordVisibility
+            val expectedIsPasswordVisible = !isPasswordVisible
             testContainerHost.assert(initialState) {
                 states(
-                    { copy(passwordVisibility = expectedPasswordVisibility) }
+                    { copy(isPasswordVisible = expectedIsPasswordVisible) }
                 )
             }
         }

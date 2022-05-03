@@ -75,7 +75,8 @@ fun SkeletonLoginApp() {
                 onLoginClick = loginViewModel::onLoginClick,
                 onEmailChange = loginViewModel::onEmailChange,
                 onPasswordChange = loginViewModel::onPasswordChange,
-                onBackClick = loginViewModel::onBackClick
+                onBackClick = loginViewModel::onBackClick,
+                onTogglePasswordVisibilityClick = loginViewModel::onTogglePasswordVisibility
             )
         }
     }

@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.syntax.OrbitDsl
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -74,9 +73,9 @@ class LoginViewModel @Inject constructor(
         postSideEffect(SideEffect.NavigateToWelcomePage)
     }
 
-    fun togglePasswordVisibility() = intent {
+    fun onTogglePasswordVisibility() = intent {
         reduce {
-            state.copy(passwordVisibility = !state.passwordVisibility)
+            state.copy(isPasswordVisible = !state.isPasswordVisible)
         }
     }
 
@@ -84,7 +83,7 @@ class LoginViewModel @Inject constructor(
         val email: String = "",
         val password: String = "",
         val isLoading: Boolean = false,
-        val passwordVisibility: Boolean = false,
+        val isPasswordVisible: Boolean = false,
     ) {
         val isLoginEnabled get() = email.isNotEmpty() && password.isNotEmpty()
     }
