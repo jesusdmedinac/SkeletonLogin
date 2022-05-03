@@ -83,8 +83,11 @@ fun SkeletonLoginApp() {
         }
 
         composable(NavItem.HomeNavItem.baseRoute) {
-            HomePage()
-
+            HomePage(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
