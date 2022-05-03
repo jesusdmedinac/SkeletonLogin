@@ -8,6 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,7 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.mupper.skeletonlogin.presentation.ui.navigation.NavItem
 import com.mupper.skeletonlogin.presentation.ui.pages.LoginPage
 import com.mupper.skeletonlogin.presentation.ui.pages.WelcomePage
-import com.mupper.skeletonlogin.presentation.ui.viewmodel.WelcomeViewModel
+import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
+import com.mupper.skeletonlogin.presentation.viewmodel.WelcomeViewModel
 
 @ExperimentalUnitApi
 @Composable
@@ -27,7 +29,7 @@ fun SkeletonLoginApp() {
         composable(NavItem.WelcomeNavItem.baseRoute) {
             val context = LocalContext.current
 
-            val welcomeViewModel: WelcomeViewModel = viewModel()
+            val welcomeViewModel: WelcomeViewModel = hiltViewModel()
 
             val welcomeSideEffect by welcomeViewModel.container.sideEffectFlow.collectAsState(
                 initial = WelcomeViewModel.SideEffect.Idle
@@ -51,17 +53,29 @@ fun SkeletonLoginApp() {
         composable(NavItem.LoginNavItem.baseRoute) {
             val context = LocalContext.current
 
+            val loginViewModel: LoginViewModel = hiltViewModel()
+
+            val loginViewModelState by loginViewModel.container.stateFlow.collectAsState()
+
+            val loginViewModelSideEffect by loginViewModel.container.sideEffectFlow.collectAsState(
+                initial = LoginViewModel.SideEffect.Idle
+            )
+
+            LaunchedEffect(loginViewModelSideEffect) {
+                when (loginViewModelSideEffect) {
+                    LoginViewModel.SideEffect.NavigateToForgotPassword -> context.displayOptionNotAvailableToast()
+                    LoginViewModel.SideEffect.NavigateToHomePage -> TODO()
+                    LoginViewModel.SideEffect.NavigateToWelcomePage -> TODO()
+                    else -> Unit
+                }
+            }
+
             LoginPage(
-                onForgotPasswordClick = {
-                    Toast.makeText(
-                        context,
-                        "¡Ups! Esta opción no se encuentra disponible",
-                        Toast.LENGTH_LONG
-                    ).show()
-                },
-                onLoginClick = {},
-                onEmailChange = {},
-                onPasswordChange = {},
+                loginViewModelState = loginViewModelState,
+                onForgotPasswordClick = loginViewModel::onForgotPasswordClick,
+                onLoginClick = loginViewModel::onLoginClick,
+                onEmailChange = loginViewModel::onEmailChange,
+                onPasswordChange = loginViewModel::onPasswordChange,
             )
         }
     }

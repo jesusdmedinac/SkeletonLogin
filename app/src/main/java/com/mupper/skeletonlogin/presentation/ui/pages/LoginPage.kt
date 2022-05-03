@@ -3,7 +3,7 @@ package com.mupper.skeletonlogin.presentation.ui.pages
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -13,14 +13,16 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.mupper.skeletonlogin.presentation.ui.theme.SkeletonLoginTheme
+import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
 
 @ExperimentalUnitApi
 @Composable
 fun LoginPage(
+    loginViewModelState: LoginViewModel.State,
     onForgotPasswordClick: () -> Unit,
     onLoginClick: () -> Unit,
-    onEmailChange: (TextFieldValue) -> Unit,
-    onPasswordChange: (TextFieldValue) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
 ) {
     Scaffold {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -32,24 +34,39 @@ fun LoginPage(
             ) {
                 Text("¡Hola de nuevo!", fontSize = TextUnit(32f, TextUnitType.Sp))
                 Spacer(modifier = Modifier.height(16.dp))
+
+                val email = loginViewModelState.email
+                var emailTextFieldValue by remember { mutableStateOf(TextFieldValue(email)) }
                 TextField(
-                    value = TextFieldValue(),
-                    onValueChange = onEmailChange,
+                    value = emailTextFieldValue,
+                    onValueChange = {
+                        emailTextFieldValue = it
+                        onEmailChange(emailTextFieldValue.text)
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
                         Text("Correo electrónico")
                     }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+
+                val password = loginViewModelState.password
+                var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue(password)) }
                 TextField(
-                    value = TextFieldValue(),
-                    onValueChange = onPasswordChange,
+                    value = passwordTextFieldValue,
+                    onValueChange = {
+                        passwordTextFieldValue = it
+                        onPasswordChange(passwordTextFieldValue.text)
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
                         Text("Contraseña")
                     }
                 )
-                TextButton(onClick = onForgotPasswordClick, modifier = Modifier.align(Alignment.End)) {
+                TextButton(
+                    onClick = onForgotPasswordClick,
+                    modifier = Modifier.align(Alignment.End)
+                ) {
                     Text("¿Olvidaste tu contraseña?", color = MaterialTheme.colors.primary)
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -57,7 +74,7 @@ fun LoginPage(
                     onClick = onLoginClick,
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = false,
+                    enabled = loginViewModelState.isLoginEnabled,
                 ) {
                     Text("Iniciar sesión")
                 }
@@ -72,6 +89,7 @@ fun LoginPage(
 fun LoginPagePreview() {
     SkeletonLoginTheme {
         LoginPage(
+            loginViewModelState = LoginViewModel.State(),
             onForgotPasswordClick = {},
             onLoginClick = {},
             onEmailChange = {},

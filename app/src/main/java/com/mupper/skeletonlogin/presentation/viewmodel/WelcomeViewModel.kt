@@ -1,13 +1,16 @@
-package com.mupper.skeletonlogin.presentation.ui.viewmodel
+package com.mupper.skeletonlogin.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
-class WelcomeViewModel : ViewModel(), ContainerHost<WelcomeViewModel.State, WelcomeViewModel.SideEffect> {
+@HiltViewModel
+class WelcomeViewModel @Inject constructor() : ViewModel(), ContainerHost<WelcomeViewModel.State, WelcomeViewModel.SideEffect> {
 
     override val container: Container<State, SideEffect> =
         container(State())
