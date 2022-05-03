@@ -10,14 +10,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mupper.skeletonlogin.presentation.ui.navigation.NavItem
-import com.mupper.skeletonlogin.presentation.ui.pages.HomePage
-import com.mupper.skeletonlogin.presentation.ui.pages.LoginPage
-import com.mupper.skeletonlogin.presentation.ui.pages.WelcomePage
+import com.mupper.skeletonlogin.presentation.ui.page.HomePage
+import com.mupper.skeletonlogin.presentation.ui.page.LoginPage
+import com.mupper.skeletonlogin.presentation.ui.page.WelcomePage
 import com.mupper.skeletonlogin.presentation.viewmodel.HomeViewModel
 import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
 import com.mupper.skeletonlogin.presentation.viewmodel.WelcomeViewModel
@@ -87,6 +86,8 @@ fun SkeletonLoginApp() {
         composable(NavItem.HomeNavItem.baseRoute) {
             val homeViewModel: HomeViewModel = hiltViewModel()
 
+            val homeViewModelState by homeViewModel.container.stateFlow.collectAsState()
+
             val homeViewModelSideEffect by homeViewModel.container.sideEffectFlow.collectAsState(
                 initial = HomeViewModel.SideEffect.Idle
             )
@@ -99,7 +100,10 @@ fun SkeletonLoginApp() {
             }
 
             HomePage(
-                onBackClick = homeViewModel::onBackClick
+                homeViewModelState,
+                onBackClick = homeViewModel::onBackClick,
+                onLogOutDialogDismissClick = homeViewModel::onLogOutDialogDismissClick,
+                onLogOutClick = homeViewModel::onLogOutClick,
             )
         }
     }

@@ -8,6 +8,7 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.SimpleSyntax
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
@@ -16,17 +17,29 @@ class HomeViewModel @Inject constructor() : ViewModel(), ContainerHost<HomeViewM
     override val container: Container<State, SideEffect> =
         container(State())
 
-    private suspend fun SimpleSyntax<State, SideEffect>.postRepetitiveSideEffect(sideEffect: SideEffect) {
-        postSideEffect(sideEffect)
-        delay(100)
-        postSideEffect(SideEffect.Idle)
-    }
-
     fun onBackClick() = intent {
-        postRepetitiveSideEffect(SideEffect.LogOut)
+        reduce {
+            state.copy(
+                isLogOutDialogDisplayed = true
+            )
+        }
     }
 
-    class State
+    fun onLogOutDialogDismissClick() = intent {
+        reduce {
+            state.copy(
+                isLogOutDialogDisplayed = false
+            )
+        }
+    }
+
+    fun onLogOutClick() = intent {
+        postSideEffect(SideEffect.LogOut)
+    }
+
+    data class State(
+        val isLogOutDialogDisplayed: Boolean = false,
+    )
 
     sealed class SideEffect {
         object Idle : SideEffect()

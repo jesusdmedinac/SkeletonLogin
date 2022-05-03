@@ -23,7 +23,7 @@ class LoginViewModelTest {
     @InjectMockKs
     lateinit var loginViewModel: LoginViewModel
 
-    lateinit var initialState: LoginViewModel.State
+    private lateinit var initialState: LoginViewModel.State
 
     @Before
     fun setUp() {

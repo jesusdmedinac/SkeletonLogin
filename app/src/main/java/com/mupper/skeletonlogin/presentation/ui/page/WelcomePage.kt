@@ -1,4 +1,4 @@
-package com.mupper.skeletonlogin.presentation.ui.pages
+package com.mupper.skeletonlogin.presentation.ui.page
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +48,7 @@ fun WelcomePage(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text("¿Ya tienes una cuenta?")
+                Spacer(modifier = Modifier.width(8.dp))
                 TextButton(onClick = onLoginClick, modifier = Modifier.height(36.dp)) {
                     Text("Inicia Sesión")
                 }

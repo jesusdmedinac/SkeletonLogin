@@ -1,8 +1,7 @@
-package com.mupper.skeletonlogin.presentation.ui.pages
+package com.mupper.skeletonlogin.presentation.ui.page
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,12 +16,18 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.mupper.skeletonlogin.R
+import com.mupper.skeletonlogin.presentation.ui.page.homepage.LogOutDialog
 import com.mupper.skeletonlogin.presentation.ui.theme.SkeletonLoginTheme
+import com.mupper.skeletonlogin.presentation.viewmodel.HomeViewModel
+import kotlin.math.log
 
 @ExperimentalUnitApi
 @Composable
 fun HomePage(
+    homeViewModelState: HomeViewModel.State,
     onBackClick: () -> Unit,
+    onLogOutDialogDismissClick: () -> Unit,
+    onLogOutClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -50,6 +55,13 @@ fun HomePage(
             Text("Developed by @JesusDMedinaC", modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
+
+    val openDialog = homeViewModelState.isLogOutDialogDisplayed
+    LogOutDialog(
+        openDialog = openDialog,
+        onDismissDialog = onLogOutDialogDismissClick,
+        logOut = onLogOutClick,
+    )
 }
 
 @ExperimentalUnitApi
@@ -58,7 +70,10 @@ fun HomePage(
 fun HomePagePreview() {
     SkeletonLoginTheme {
         HomePage(
-            onBackClick = {}
+            homeViewModelState = HomeViewModel.State(),
+            onBackClick = {},
+            onLogOutClick = {},
+            onLogOutDialogDismissClick = {},
         )
     }
 }

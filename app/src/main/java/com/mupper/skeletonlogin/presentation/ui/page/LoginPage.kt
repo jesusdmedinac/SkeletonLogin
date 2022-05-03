@@ -1,4 +1,4 @@
-package com.mupper.skeletonlogin.presentation.ui.pages
+package com.mupper.skeletonlogin.presentation.ui.page
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
