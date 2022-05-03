@@ -3,15 +3,19 @@ package com.mupper.skeletonlogin.presentation.ui.pages
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.mupper.skeletonlogin.R
 import com.mupper.skeletonlogin.presentation.ui.theme.SkeletonLoginTheme
 import com.mupper.skeletonlogin.presentation.viewmodel.LoginViewModel
 
@@ -23,8 +27,22 @@ fun LoginPage(
     onLoginClick: () -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
+    onBackClick: () -> Unit,
 ) {
-    Scaffold {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "")
+                    }
+                },
+                title = {
+                    Text(text = stringResource(R.string.app_name))
+                },
+            )
+        }
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -94,6 +112,7 @@ fun LoginPagePreview() {
             onLoginClick = {},
             onEmailChange = {},
             onPasswordChange = {},
+            onBackClick = {},
         )
     }
 }

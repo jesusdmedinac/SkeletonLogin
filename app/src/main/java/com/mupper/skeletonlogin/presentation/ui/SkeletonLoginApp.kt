@@ -64,7 +64,7 @@ fun SkeletonLoginApp() {
                 when (loginViewModelSideEffect) {
                     LoginViewModel.SideEffect.NavigateToForgotPassword -> context.displayOptionNotAvailableToast()
                     LoginViewModel.SideEffect.NavigateToHomePage -> TODO()
-                    LoginViewModel.SideEffect.NavigateToWelcomePage -> TODO()
+                    LoginViewModel.SideEffect.NavigateToWelcomePage -> navController.navigateToWelcome()
                     else -> Unit
                 }
             }
@@ -75,6 +75,7 @@ fun SkeletonLoginApp() {
                 onLoginClick = loginViewModel::onLoginClick,
                 onEmailChange = loginViewModel::onEmailChange,
                 onPasswordChange = loginViewModel::onPasswordChange,
+                onBackClick = loginViewModel::onBackClick
             )
         }
     }
@@ -82,6 +83,10 @@ fun SkeletonLoginApp() {
 
 private fun NavHostController.navigateToLogin() {
     navigate(NavItem.LoginNavItem.baseRoute)
+}
+
+private fun NavHostController.navigateToWelcome() {
+    navigate(NavItem.WelcomeNavItem.baseRoute)
 }
 
 private fun Context.displayOptionNotAvailableToast() {
