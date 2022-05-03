@@ -41,7 +41,7 @@ fun LoginPage(
             TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back Navigation")
                     }
                 },
                 title = {
@@ -76,6 +76,7 @@ fun LoginPage(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 val password = loginViewModelState.password
+                val isPasswordVisible = loginViewModelState.isPasswordVisible
                 var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue(password)) }
                 TextField(
                     value = passwordTextFieldValue,
@@ -94,14 +95,14 @@ fun LoginPage(
                         ) {
                             Icon(
                                 painterResource(
-                                    if (loginViewModelState.isPasswordVisible) R.drawable.ic_visibility
+                                    if (isPasswordVisible) R.drawable.ic_visibility
                                     else R.drawable.ic_visibility_off
                                 ),
-                                contentDescription = ""
+                                contentDescription = "Visibility Icon"
                             )
                         }
                     },
-                    visualTransformation = if (loginViewModelState.isPasswordVisible) VisualTransformation.None
+                    visualTransformation = if (isPasswordVisible) VisualTransformation.None
                     else PasswordVisualTransformation(),
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -114,16 +115,18 @@ fun LoginPage(
                     Text("¿Olvidaste tu contraseña?", color = MaterialTheme.colors.primary)
                 }
                 Spacer(modifier = Modifier.weight(1f))
+                val isLoading = loginViewModelState.isLoading
+                val isLoginEnabled = loginViewModelState.isLoginEnabled
                 Button(
                     onClick = onLoginClick,
                     shape = RoundedCornerShape(16.dp),
-                    modifier = if (!loginViewModelState.isLoading) Modifier.fillMaxWidth()
+                    modifier = if (!isLoading) Modifier.fillMaxWidth()
                     else Modifier
                         .wrapContentWidth()
                         .clip(CircleShape)
                         .align(Alignment.CenterHorizontally)
                         .height(36.dp),
-                    enabled = loginViewModelState.isLoginEnabled,
+                    enabled = isLoginEnabled,
                 ) {
                     if (!loginViewModelState.isLoading) Text("Iniciar sesión")
                     else CircularProgressIndicator(
