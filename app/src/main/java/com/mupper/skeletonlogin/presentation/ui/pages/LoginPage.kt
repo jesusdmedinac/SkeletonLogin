@@ -104,9 +104,12 @@ fun LoginPage(
                     visualTransformation = if (loginViewModelState.isPasswordVisible) VisualTransformation.None
                     else PasswordVisualTransformation(),
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 TextButton(
                     onClick = onForgotPasswordClick,
-                    modifier = Modifier.align(Alignment.End)
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .height(36.dp),
                 ) {
                     Text("¿Olvidaste tu contraseña?", color = MaterialTheme.colors.primary)
                 }
@@ -118,11 +121,15 @@ fun LoginPage(
                     else Modifier
                         .wrapContentWidth()
                         .clip(CircleShape)
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .height(36.dp),
                     enabled = loginViewModelState.isLoginEnabled,
                 ) {
                     if (!loginViewModelState.isLoading) Text("Iniciar sesión")
-                    else CircularProgressIndicator(color = Color.White)
+                    else CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier.size(24.dp),
+                    )
                 }
             }
         }

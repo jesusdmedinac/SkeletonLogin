@@ -32,20 +32,23 @@ fun WelcomePage(
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = onSignUpClick,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(36.dp),
                 shape = RoundedCornerShape(24.dp)
             ) {
                 Text("CREAR CUENTA")
             }
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp),
+                    .height(36.dp),
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text("¿Ya tienes una cuenta?")
-                TextButton(onClick = onLoginClick) {
+                TextButton(onClick = onLoginClick, modifier = Modifier.height(36.dp)) {
                     Text("Inicia Sesión")
                 }
             }
