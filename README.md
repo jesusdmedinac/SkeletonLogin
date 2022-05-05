@@ -5,5 +5,5 @@ https://user-images.githubusercontent.com/9106910/166588616-6671c713-1efa-4812-a
 ### User Credentials
 
 Just use next user credentials to pass the login page:
-- User: user@baubap
+- User: user@baubap.com
 - Password: pass123
